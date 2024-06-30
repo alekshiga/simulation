@@ -17,8 +17,8 @@ public class World extends JPanel {
     
     private int generation;
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    static final int WIDTH = 1280;
+    static final int HEIGHT = 720;
 
     public World() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
