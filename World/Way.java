@@ -1,11 +1,9 @@
-package World;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 public class Way {
     
@@ -17,8 +15,8 @@ public class Way {
 
     // Метод возвращает перемешанный список городов
     // Для нахождения нового случайного пути
-    public static Way create(final City[] points) {
-        final List<City> cities = Arrays.asList(Arrays.copyOf(points, points.length));
+    public static Way create(final City[] data) {
+        final List<City> cities = Arrays.asList(Arrays.copyOf(data, data.length));
         Collections.shuffle(cities);
         return new Way(cities);
     }

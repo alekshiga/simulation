@@ -1,4 +1,4 @@
-package World;
+
 
 public class City {
     
@@ -19,7 +19,7 @@ public class City {
     }
 
     public final double getDistance(City other) {
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+        return Math.sqrt(Math.pow((double) this.x - other.x, 2) + Math.pow((double) this.y - other.y, 2));
     }
 
     public final String toString() {
@@ -45,8 +45,6 @@ public class City {
             return false;
 
         City other = (City) obj;
-        if (this.x != other.x || this.y != other.y) return false;
-        
-        else return true;
+        return this.x == other.x && this.y == other.y;
     }
 }

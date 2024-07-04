@@ -1,4 +1,4 @@
-package World;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,7 +18,7 @@ public class Map {
     }
 
     // метод должен создать начальное поколение
-    private List<Way> initialize(final City[] cities, final int startSize2) {
+    private List<Way> initialize(final City[] cities, final int startSize) {
         List<Way> map = new ArrayList<>();
         for (int i = 0; i < startSize; ++i) {
             Way way = Way.create(cities);
@@ -34,16 +34,12 @@ public class Map {
 
     
     void update() {
-        
         // метод должен создавать новые маршруты путем кроссовера (скрещивания) существующих маршрутов
         executeCrossover();
-        
         // метод должен найти пару для кроссовера с маршрутом `way`
         executeMutation();
-        
         // метод должен создавать новые маршруты.
         executeCreation();
-        
         // метод должен отбирать лучшие маршруты из `world` для следующего поколения
         executeSelection();
     }
