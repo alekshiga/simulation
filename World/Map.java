@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Map {
     
@@ -20,8 +19,12 @@ public class Map {
 
     // метод должен создать начальное поколение
     private List<Way> initialize(final City[] cities, final int startSize2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'initialize'");
+        List<Way> map = new ArrayList<>();
+        for (int i = 0; i < startSize; ++i) {
+            Way way = Way.create(cities);
+            map.add(way);
+        }
+        return map;
     }
 
     //  должен вернуть лучший маршрут из `world`
@@ -43,8 +46,6 @@ public class Map {
         
         // метод должен отбирать лучшие маршруты из `world` для следующего поколения
         executeSelection();
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     private void executeCrossover() {

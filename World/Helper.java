@@ -6,17 +6,17 @@ import java.util.Random;
 
 public class Helper {
 
-    static final Random random = new Random(1000);
+    static final Random random = new Random(50);
 
-    static final City[] cities = generateData(100);
+    static final City[] cities = generateData(50);
 
     private static final City[] generateData(final int num) {
         
         final City[] data =  new City[num];
 
         for (int i = 0; i < num; i++) {
-            data[i] = new City(Helper.randomIndex(World.WIDTH), 
-                                    Helper.randomIndex(World.HEIGHT));
+            data[i] = new City(Helper.randomIndex(World.WIDTH - 50), 
+                                    Helper.randomIndex(World.HEIGHT - 50));
         }
 
         return data;

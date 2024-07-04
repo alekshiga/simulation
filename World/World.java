@@ -28,7 +28,7 @@ public class World extends JPanel {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.DARK_GRAY);
         this.generation = 0;
-        this.map = new Map(100, Helper.cities);
+        this.map = new Map(50, Helper.cities);
     }
 
     @Override
@@ -39,20 +39,24 @@ public class World extends JPanel {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.generation++;
         g.drawString("generation: " + (this.generation), 575, 15);
-        g.drawString("shortest way: " + map.bestSolution().calculateTotalDistance(), 900, 15);
-        drawShortestWay();
+        g.drawString("shortest way: " + String.format("%.2f", map.bestSolution().calculateTotalDistance()), 1100, 15);
+        drawShortestWay(g);
     } 
 
-    private void drawShortestWay() {
-    Graphics2D g = (Graphics2D) getGraphics();
-    // Например, если кратчайший путь хранится в виде списка координат:
-    Way shortestWay = map.bestSolution(); // Добавьте метод getShortestPath() в класс Map
-    if (shortestWay != null && !shortestWay.getPath().isEmpty()) {
-        g.setColor(Color.white); 
-        for (int i = 0; i < shortestWay.getPath().size() - 1; i++) {
-            City city1 = shortestWay.getPath().get(i);
-            City city2 = shortestWay.getPath().get(i + 1);
+    private void drawShortestWay(final Graphics2D g) {
+    List<City> shortestWay = map.bestSolution().getPath(); // Добавьте метод getShortestPath() в класс Map
+    if (shortestWay != null && !shortestWay.isEmpty()) {
+        g.setColor(Color.WHITE);
+        City city1 = shortestWay.get(0);
+        City city2 = shortestWay.get(1);
+        for (int i = 0; i < shortestWay.size() - 1; ++i) {
+            city1 = shortestWay.get(i);
+            city2 = shortestWay.get(i + 1);
             g.drawLine(city1.getX(), city1.getY(), city2.getX(), city2.getY()); // Используйте drawLine для рисования линий пути
+        }
+        g.setColor(Color.RED);
+        for (City city : shortestWay) {
+            g.fillOval(city.getX(), city.getY(), 5, 5);
         }
     }
 }
@@ -68,11 +72,11 @@ public class World extends JPanel {
         frame.setVisible(true);
 
         // Используем таймер, чтобы перерисовывать окно
-        Timer timer = new Timer(5, new ActionListener() {
+        Timer timer = new Timer(15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 map.update();
-                frame.revalidate();
+                frame.repaint();
 
             }
         });
