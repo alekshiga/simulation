@@ -9,16 +9,16 @@ public class Map {
     private final int startSize;
     
     // world представляет собой список, содержащий все маршруты (решения) задачи
-    private List<Way> world; 
+    private List<Way> ways; 
     
     Map(final int startSize,
-             final City[] cities) {
+             final List<City> cities) {
         this.startSize = startSize;
-        this.world = initialize(cities, startSize);
+        this.ways = initialize(cities, startSize);
     }
 
     // метод должен создать начальное поколение
-    private List<Way> initialize(final City[] cities, final int startSize) {
+    private List<Way> initialize(final List<City> cities, final int startSize) {
         List<Way> map = new ArrayList<>();
         for (int i = 0; i < startSize; ++i) {
             Way way = Way.create(cities);
@@ -29,16 +29,16 @@ public class Map {
 
     //  должен вернуть лучший маршрут из `world`
     public Way bestSolution() {
-        return this.world.get(0);
+        return this.ways.get(0);
     }
 
     
     void update() {
         // метод должен создавать новые маршруты путем кроссовера (скрещивания) существующих маршрутов
         executeCrossover();
-        // метод должен найти пару для кроссовера с маршрутом `way`
+        // метод должен изменить маршрут случайным образом(мутация)
         executeMutation();
-        // метод должен создавать новые маршруты.
+        // метод должен создавать новые маршруты после кроссовера и мутации
         executeCreation();
         // метод должен отбирать лучшие маршруты из `world` для следующего поколения
         executeSelection();
@@ -46,49 +46,50 @@ public class Map {
 
     private void executeCrossover() {
         final List<Way> newWorld = new ArrayList<>();
-        for (Way way : this.world) {
+        for (Way way : this.ways) {
             Way pair = getPair(way);
             newWorld.addAll(Arrays.asList(way.crossover(pair)));
         }
-        newWorld.addAll(this.world);
-        this.world = newWorld;
+        newWorld.addAll(this.ways);
+        this.ways = newWorld;
     }
 
     private void executeMutation() {
         final List<Way> newWorld = new ArrayList<>();
-        for (int i = 0; i < this.world.size()/10; i++) {
-            Way newWay = this.world.get(Helper.randomIndex(this.world.size())).mutate();
+        for (int i = 0; i < this.ways.size()/10; i++) {
+            Way newWay = this.ways.get(HelperForm.randomIndex(this.ways.size())).mutate();
             newWorld.add(newWay);
         }
-        this.world.addAll(newWorld);
+        this.ways.addAll(newWorld);
     }
 
     private void executeCreation() {
         for (int i = 0; i < 1000; ++i) {
-            this.world.add(Way.create(Helper.cities));
+            this.ways.add(Way.create(HelperForm.cities));
         }    
     }
 
     private void executeSelection() {
         // Сортируем маршруты по расстоянию (от меньшего к большему)
-        this.world.sort(Comparator.comparingDouble(Way::calculateTotalDistance));
+        this.ways.sort(Comparator.comparingDouble(Way::calculateTotalDistance));
     
         // Создаем новый список для выбранных хромосом
         List<Way> selected = new ArrayList<>();
     
         // Выбираем первые startSize из отсортированного списка
         for (int i = 0; i < this.startSize; i++) {
-            selected.add(this.world.get(i));
+            selected.add(this.ways.get(i));
         }
     
         // Заменяем существующую популяцию выбранными хромосомами
-        this.world = selected;
+        this.ways = selected;
     }
 
+    //метод выбирает случайный маршрут из списка маршрутов, после чего создаётся пара
     private Way getPair(Way way) {
-        Way pair = this.world.get(Helper.randomIndex(this.world.size()));
+        Way pair = this.ways.get(HelperForm.randomIndex(this.ways.size()));
         while (way == pair) {
-            pair = this.world.get(Helper.randomIndex(this.world.size()));
+            pair = this.ways.get(HelperForm.randomIndex(this.ways.size()));
         }
         return way;
     }

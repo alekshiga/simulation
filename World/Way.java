@@ -1,7 +1,6 @@
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,8 +14,8 @@ public class Way {
 
     // Метод возвращает перемешанный список городов
     // Для нахождения нового случайного пути
-    public static Way create(final City[] data) {
-        final List<City> cities = Arrays.asList(Arrays.copyOf(data, data.length));
+    public static Way create(final List<City> data) {
+        final List<City> cities = data;
         Collections.shuffle(cities);
         return new Way(cities);
     }
@@ -46,8 +45,8 @@ public class Way {
     Way[] crossover(final Way other) {
 
         // разделяет два пути this.path и other.getPath() на две части
-        final List<City>[] myList = Helper.split(this.path); 
-        final List<City>[] otherList = Helper.split(other.getPath()); 
+        final List<City>[] myList = HelperForm.split(this.path); 
+        final List<City>[] otherList = HelperForm.split(other.getPath()); 
         
         // создание новых списков, которые изначально заполняются 
         // первой частью первого пути и второй частью второго пути
@@ -81,8 +80,9 @@ public class Way {
             }
         }
 
-        if (!Helper.isValid(crossoverOne) || !Helper.isValid(crossoverTwo)) {  // проверка валидности сгенерированного пересечения
-            throw new RuntimeException("Невалидное пересечение маршрутов");  // городов в пересечении должно быть столько же, сколько всего существует городов
+        if(crossoverOne.size() != HelperForm.cities.size() ||
+           crossoverTwo.size() != HelperForm.cities.size()) {
+            throw new RuntimeException("невалидное перекрещение маршрутов!");
         }
 
         return new Way[] { new Way(crossoverOne), 
@@ -94,13 +94,13 @@ public class Way {
         final List<City> copy = new ArrayList<>(this.path);
 
         // генерируем 2 случайных индекса
-        int a = Helper.random.nextInt(copy.size());
-        int b = Helper.random.nextInt(copy.size());
+        int a = HelperForm.random.nextInt(copy.size());
+        int b = HelperForm.random.nextInt(copy.size());
 
         // генерируем новые, пока они совпадают
         while (a == b) {
-            a = Helper.random.nextInt(copy.size());
-            b = Helper.random.nextInt(copy.size());
+            a = HelperForm.random.nextInt(copy.size());
+            b = HelperForm.random.nextInt(copy.size());
         }
         
         // случайным образом меняем элементы местами, чтобы получить новый случайный путь
