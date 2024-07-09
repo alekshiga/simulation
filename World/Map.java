@@ -50,8 +50,7 @@ public class Map {
             Way pair = getPair(way);
             newWorld.addAll(Arrays.asList(way.crossover(pair)));
         }
-        newWorld.addAll(this.ways);
-        this.ways = newWorld;
+        this.ways.addAll(newWorld);
     }
 
     private void executeMutation() {
