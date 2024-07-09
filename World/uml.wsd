@@ -1,0 +1,47 @@
+
+    Main <|-- SwingWorker
+    SwingWorker <|-- ActionListener
+    Main <|-- Timer
+
+    Main : +main(String[])
+    Main : +counter : int
+    Main : +generationsWithoutChange : int
+    Main : +bestSolution : double
+    Main : +currentBestSolution : double
+
+    SwingWorker : +doInBackground() : Void
+    SwingWorker : +done() : Void
+
+    ActionListener : +actionPerformed(ActionEvent)
+
+    Timer : +start()
+    Timer : +stop()
+
+    World : +World(ArrayList<City>)
+    World : +map : Map
+    World : +WIDTH : int
+    World : +HEIGHT : int
+
+    HelperForm <|-- JFrame
+    HelperForm : +cities : List<City>
+    HelperForm : +random : Random
+    HelperForm : -image : BufferedImage
+    HelperForm : -drawingPanel : JPanel
+    HelperForm : +HelperForm()
+    HelperForm : +randomIndex(int) : int
+    HelperForm : +split(List<City>) : List<City>[]
+
+    Map : +update()
+    Map : +bestSolution() : Solution
+    
+    Solution : +calculateTotalDistance() : double
+
+    City : -x : int
+    City : -y : int
+    City : +City(int, int)
+    City : +getX() : int
+    City : +getY() : int
+    City : +getDistance(City) : double
+    City : +toString() : String
+    City : +hashCode() : int
+    City : +equals(Object) : boolean
